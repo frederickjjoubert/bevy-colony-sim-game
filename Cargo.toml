@@ -16,3 +16,4 @@ opt-level = 3
 
 [dependencies]
 bevy = { version = "0.11.0", features = ["dynamic_linking"] }
+bevy_hanabi = { version = "0.7", default-features = false, features = ["2d"] }
