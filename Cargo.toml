@@ -2,7 +2,17 @@
 name = "bevy-colony-sim-game"
 version = "0.1.0"
 edition = "2021"
+authors = ["Jacques 20562845+frederickjjoubert@users.noreply.github.com"]
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
+# Enable a small amount of optimization in debug mode
+[profile.dev]
+opt-level = 1
+
+# Enable high optimizations for dependencies (incl. Bevy), but not for our code:
+[profile.dev.package."*"]
+opt-level = 3
+
 [dependencies]
+bevy = { version = "0.11.0", features = ["dynamic_linking"] }
