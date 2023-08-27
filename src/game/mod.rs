@@ -1,8 +1,11 @@
+mod brain;
 mod starfield;
 
 use starfield::spawn_star_field;
 
 use bevy::prelude::*;
+
+use self::brain::BrainPlugin;
 
 // === Plugin ===
 pub struct GamePlugin;
@@ -10,6 +13,8 @@ pub struct GamePlugin;
 impl Plugin for GamePlugin {
     fn build(&self, app: &mut App) {
         app
+            //Plugins
+            .add_plugins(BrainPlugin)
             // Systems
             .add_systems(Startup, spawn_camera)
             .add_systems(Startup, spawn_star_field);
