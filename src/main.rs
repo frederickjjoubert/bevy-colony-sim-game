@@ -1,11 +1,14 @@
 mod camera;
 mod game;
+mod assets;
 
 use game::GamePlugin;
 
 use bevy::prelude::*;
 use bevy::window::{PresentMode, WindowResolution};
 use bevy_hanabi::prelude::*;
+
+
 
 fn main() {
     App::new()
