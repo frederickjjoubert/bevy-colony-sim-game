@@ -1,3 +1,4 @@
+mod brain;
 mod grid;
 mod starfield;
 mod wall;
@@ -6,6 +7,7 @@ use starfield::spawn_star_field;
 
 use bevy::prelude::*;
 
+use self::brain::BrainPlugin;
 use self::wall::WallPlugin;
 
 // === Plugin ===
@@ -15,6 +17,7 @@ impl Plugin for GamePlugin {
     fn build(&self, app: &mut App) {
         app
             //Plugins
+            .add_plugins(BrainPlugin)
             .add_plugins(WallPlugin)
             // Systems
             .add_systems(Startup, spawn_camera)
