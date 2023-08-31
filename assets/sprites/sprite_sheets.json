@@ -1,44 +1,23 @@
 {
   "sprite_sheets": {
-    "sheet_1": {
-      "path": "path/to/sprite_sheet_1.png",
+    "character_1": {
+      "path": "sprites/trevor-pupkin/Tech Dungeon Roguelite - Asset Pack (DEMO)/Players/players blue x1.png",
       "sprite_size": {
         "width": 32,
         "height": 32
       },
       "sprites": {
-        "sprite_name_1": {
+        "player_idle_1": {
           "x": 0,
           "y": 0
         },
-        "sprite_name_2": {
-          "x": 32,
-          "y": 0
-        },
-        "sprite_name_3": {
-          "x": 64,
-          "y": 0
-        }
-      }
-    },
-    "sheet_2": {
-      "path": "path/to/sprite_sheet_2.png",
-      "sprite_size": {
-        "width": 16,
-        "height": 16
-      },
-      "sprites": {
-        "sprite_name_4": {
+        "player_talk_1": {
           "x": 0,
-          "y": 0
+          "y": 1
         },
-        "sprite_name_5": {
-          "x": 16,
-          "y": 0
-        },
-        "sprite_name_6": {
-          "x": 32,
-          "y": 0
+        "player_talk_2": {
+          "x": 0,
+          "y": 2
         }
       }
     }
