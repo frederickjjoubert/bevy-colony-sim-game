@@ -1,0 +1,7 @@
+{
+  "sprites": {
+    "sprite_name_1": "path/to/sprite_1_directory",
+    "sprite_name_2": "path/to/sprite_2_directory",
+    "sprite_name_3": "path/to/sprite_3_directory"
+  }
+}

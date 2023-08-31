@@ -1,6 +1,8 @@
 ## Bevy Colony Simulator Game
 
-This is a learning / experimental project to develop a [colony simulator](https://en.wikipedia.org/wiki/Construction_and_management_simulation) style game using the [Bevy](https://bevyengine.org/) game engine.
+This is a learning / experimental project to develop
+a [colony simulator](https://en.wikipedia.org/wiki/Construction_and_management_simulation) style game using
+the [Bevy](https://bevyengine.org/) game engine.
 
 ## Language
 
@@ -76,13 +78,4 @@ TODO
 
 ## Dependencies
 
-See `cargo.toml` for details.
-
-### [bevy](https://bevyengine.org/)
-
-Bevy is a refreshingly simple data-driven game engine built in Rust. It is free and open-source forever!
-
-1. https://bevyengine.org/
-2. https://bevyengine.org/learn/
-3. https://github.com/bevyengine/bevy
-4. https://crates.io/crates/bevy
+See `DEPENDENCIES.md` for more information.
