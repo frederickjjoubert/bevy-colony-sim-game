@@ -1,10 +1,10 @@
-use bevy::prelude::*;
+use bevy::{ecs::system::SystemState, prelude::*};
 
 pub struct BrainPlugin;
 
 impl Plugin for BrainPlugin {
     fn build(&self, app: &mut App) {
-        app.add_systems(Update, update_brains)
+        app.add_systems(Update, (update_brains, preform_brain_actions).chain())
             .add_systems(Startup, spawn_dummy_brains);
     }
 }
@@ -17,7 +17,7 @@ pub struct Brain {
 
 // The things that the brain can do
 // Other systems should detect and move the unit according to these, set by task.current_action
-#[derive(Component, Debug, Clone, Copy)]
+#[derive(Debug, Clone, Copy)]
 pub enum BrainAction {
     Idle,
     WaitingOnPathfinding,
@@ -33,7 +33,6 @@ pub trait BrainTask: Send + Sync {
     fn update(&mut self, world: &mut World, brain: Entity);
 }
 
-#[derive(Clone)]
 pub struct GetFoodTask {
     current_action: BrainAction,
 }
@@ -44,7 +43,31 @@ impl BrainTask for GetFoodTask {
     }
 
     fn update(&mut self, _world: &mut World, _brain: Entity) {
-        self.current_action = BrainAction::Idle;
+        self.current_action = BrainAction::UsingMachine;
+    }
+}
+
+pub struct BuildWallTask {
+    current_action: BrainAction,
+}
+
+impl BrainTask for BuildWallTask {
+    fn current_action(&self) -> Option<BrainAction> {
+        Some(self.current_action)
+    }
+
+    fn update(&mut self, world: &mut World, brain: Entity) {
+        // Here we can get any combination of queries and resources
+        let mut system: SystemState<Query<&Transform>> = SystemState::new(world);
+        let transform_query = system.get(world);
+
+        if let Ok(_brain_location) = transform_query.get(brain) {
+            // Check location for example
+            self.current_action = BrainAction::Build
+        } else {
+            // Brain has no transform
+            self.current_action = BrainAction::Idle
+        }
     }
 }
 
@@ -84,21 +107,22 @@ impl BrainTask for DummyTask {
 }
 
 fn spawn_dummy_brains(mut commands: Commands) {
-    commands.spawn((
-        Brain {
-            task: Box::new(GetFoodTask {
-                current_action: BrainAction::Build,
-            }),
-        },
-        BrainAction::Idle,
-    ));
+    commands.spawn((Brain {
+        task: Box::new(GetFoodTask {
+            current_action: BrainAction::Idle,
+        }),
+    },));
 
-    commands.spawn((
-        Brain {
-            task: Box::new(GetFoodTask {
-                current_action: BrainAction::Build,
-            }),
-        },
-        BrainAction::Idle,
-    ));
+    commands.spawn((Brain {
+        task: Box::new(BuildWallTask {
+            current_action: BrainAction::Idle,
+        }),
+    },));
+}
+
+// TODO actually do actions
+fn preform_brain_actions(brains: Query<(Entity, &Brain)>) {
+    for (entity, brain) in &brains {
+        info!("{:?}, {:?}", entity, brain.task.current_action());
+    }
 }
