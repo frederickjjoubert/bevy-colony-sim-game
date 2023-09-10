@@ -1,17 +1,27 @@
+mod assets;
 mod camera;
 mod game;
-mod assets;
 
+use bevy_asset_loader::loading_state::{LoadingState, LoadingStateAppExt};
 use game::GamePlugin;
 
 use bevy::prelude::*;
 use bevy::window::{PresentMode, WindowResolution};
 use bevy_hanabi::prelude::*;
 
-
+#[derive(Clone, Eq, PartialEq, Debug, Hash, Default, States)]
+pub enum GameState {
+    #[default]
+    Loading,
+    Gameplay,
+}
 
 fn main() {
     App::new()
+        .add_state::<GameState>()
+        .add_loading_state(
+            LoadingState::new(GameState::Loading).continue_to_state(GameState::Gameplay),
+        )
         .add_plugins(
             DefaultPlugins
                 // Set up the window

@@ -1,14 +1,15 @@
 mod brain;
 mod grid;
+mod map;
 mod starfield;
 mod wall;
-mod map;
 
+use bevy::render::camera::ScalingMode;
 use starfield::spawn_star_field;
 
-use bevy::prelude::*;
+use crate::assets::sprites::resources::{SpriteSheets, Sprites};
 use crate::assets::AssetsPlugin;
-use crate::assets::sprites::resources::{Sprites, SpriteSheets};
+use bevy::prelude::*;
 
 use self::brain::BrainPlugin;
 use self::wall::WallPlugin;
@@ -33,8 +34,13 @@ impl Plugin for GamePlugin {
 pub fn spawn_camera(mut commands: Commands) {
     commands.spawn((
         Camera2dBundle {
-            transform: Transform::from_xyz(0.0, 0.0, 1000.0),
-            projection: OrthographicProjection::default(),
+            projection: OrthographicProjection {
+                scaling_mode: ScalingMode::AutoMin {
+                    min_width: 80.0,
+                    min_height: 45.0,
+                },
+                ..default()
+            },
             ..default()
         },
         Name::new("Camera"),

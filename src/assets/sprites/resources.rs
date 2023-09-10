@@ -1,6 +1,6 @@
-use std::collections::HashMap;
 use bevy::prelude::Resource;
-use serde::{Serialize, Deserialize};
+use serde::{Deserialize, Serialize};
+use std::collections::HashMap;
 
 #[derive(Debug, Resource, Serialize, Deserialize)]
 pub struct Sprites {

@@ -84,11 +84,13 @@ fn update_brains(world: &mut World) {
 
     // Update each
     for (task, entity) in &mut to_update {
+        // pls dont destroy brain
         task.update(world, *entity);
     }
 
     // Return the tasks to the brains
     let mut brains = world.query::<&mut Brain>();
+    // does this always work... do the brains iter in the same order? we are an exclusive system so probably but maybe not lmao
     for (mut brain, task) in brains.iter_mut(world).zip(to_update.into_iter()) {
         let _ = std::mem::replace(&mut brain.task, task.0);
     }
@@ -98,11 +100,11 @@ pub struct DummyTask;
 
 impl BrainTask for DummyTask {
     fn current_action(&self) -> Option<BrainAction> {
-        todo!()
+        unreachable!()
     }
 
     fn update(&mut self, _world: &mut World, _brain: Entity) {
-        todo!()
+        unreachable!()
     }
 }
 
@@ -123,6 +125,6 @@ fn spawn_dummy_brains(mut commands: Commands) {
 // TODO actually do actions
 fn preform_brain_actions(brains: Query<(Entity, &Brain)>) {
     for (entity, brain) in &brains {
-        info!("{:?}, {:?}", entity, brain.task.current_action());
+        //info!("{:?}, {:?}", entity, brain.task.current_action());
     }
 }
