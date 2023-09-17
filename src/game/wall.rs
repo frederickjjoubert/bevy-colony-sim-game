@@ -1,9 +1,6 @@
 pub use bevy::prelude::*;
 
-use crate::{
-    assets::sprites::{resources::SpriteSheet, Aske4TileSet},
-    GameState,
-};
+use crate::{assets::sprites::Aske4TileSet, GameState};
 
 use super::grid::{GridLocation, GridPlugin, GRID_SIZE};
 

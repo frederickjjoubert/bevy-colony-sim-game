@@ -8,10 +8,12 @@ use bevy::render::camera::ScalingMode;
 use starfield::spawn_star_field;
 
 use crate::assets::sprites::resources::{SpriteSheets, Sprites};
+use crate::assets::sprites::Robots;
 use crate::assets::AssetsPlugin;
+use crate::GameState;
 use bevy::prelude::*;
 
-use self::brain::BrainPlugin;
+use self::brain::{Brain, BrainPlugin};
 use self::wall::WallPlugin;
 
 // === Plugin ===
@@ -27,6 +29,7 @@ impl Plugin for GamePlugin {
             // Systems
             .add_systems(Startup, spawn_camera)
             .add_systems(Startup, spawn_star_field)
+            .add_systems(OnEnter(GameState::Gameplay), spawn_test_pawn)
             .add_systems(Startup, test_sprites_loaded);
     }
 }
@@ -36,14 +39,30 @@ pub fn spawn_camera(mut commands: Commands) {
         Camera2dBundle {
             projection: OrthographicProjection {
                 scaling_mode: ScalingMode::AutoMin {
-                    min_width: 80.0,
-                    min_height: 45.0,
+                    min_width: 40.0,
+                    min_height: 22.5,
                 },
                 ..default()
             },
             ..default()
         },
         Name::new("Camera"),
+    ));
+}
+
+pub fn spawn_test_pawn(mut commands: Commands, sprites: Res<Robots>) {
+    commands.spawn((
+        SpriteSheetBundle {
+            transform: Transform::from_xyz(2.0, 2.0, 100.0),
+            sprite: TextureAtlasSprite {
+                index: 1,
+                custom_size: Some(Vec2::splat(1.0)),
+                ..default()
+            },
+            texture_atlas: sprites.frames.clone(),
+            ..default()
+        },
+        Brain::new(),
     ));
 }
 

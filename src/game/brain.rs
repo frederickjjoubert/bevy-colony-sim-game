@@ -1,11 +1,11 @@
 use bevy::{ecs::system::SystemState, prelude::*};
+use rand::{rngs::ThreadRng, Rng};
 
 pub struct BrainPlugin;
 
 impl Plugin for BrainPlugin {
     fn build(&self, app: &mut App) {
-        app.add_systems(Update, (update_brains, preform_brain_actions).chain())
-            .add_systems(Startup, spawn_dummy_brains);
+        app.add_systems(Update, (update_brains, preform_brain_actions).chain());
     }
 }
 
@@ -15,13 +15,21 @@ pub struct Brain {
     task: Box<dyn BrainTask>,
 }
 
+impl Brain {
+    pub fn new() -> Self {
+        Brain {
+            task: Box::<WanderTask>::default(),
+        }
+    }
+}
+
 // The things that the brain can do
 // Other systems should detect and move the unit according to these, set by task.current_action
 #[derive(Debug, Clone, Copy)]
 pub enum BrainAction {
     Idle,
     WaitingOnPathfinding,
-    Walking,
+    Walking(Vec2),
     UsingMachine,
     PickupItem,
     Build,
@@ -71,6 +79,38 @@ impl BrainTask for BuildWallTask {
     }
 }
 
+pub struct WanderTask {
+    current_action: BrainAction,
+}
+
+impl Default for WanderTask {
+    fn default() -> Self {
+        Self {
+            current_action: BrainAction::Idle,
+        }
+    }
+}
+
+impl BrainTask for WanderTask {
+    fn current_action(&self) -> Option<BrainAction> {
+        Some(self.current_action)
+    }
+
+    fn update(&mut self, world: &mut World, brain: Entity) {
+        if let BrainAction::Walking(target) = self.current_action {
+            let current_transform = world.get::<Transform>(brain).unwrap();
+            // FIXME based on speed and frame rate
+            if current_transform.translation.truncate().distance(target) < 0.3 {
+                let (x, y) = rand::thread_rng().gen::<(f32, f32)>();
+                self.current_action = BrainAction::Walking(Vec2::new(x * 20.0, y * 20.0));
+            }
+        } else {
+            let (x, y) = rand::thread_rng().gen::<(f32, f32)>();
+            self.current_action = BrainAction::Walking(Vec2::new(x * 20.0, y * 20.0));
+        }
+    }
+}
+
 fn update_brains(world: &mut World) {
     let mut to_update = Vec::default();
     let mut brains = world.query::<(Entity, &mut Brain)>();
@@ -108,23 +148,27 @@ impl BrainTask for DummyTask {
     }
 }
 
-fn spawn_dummy_brains(mut commands: Commands) {
-    commands.spawn((Brain {
-        task: Box::new(GetFoodTask {
-            current_action: BrainAction::Idle,
-        }),
-    },));
-
-    commands.spawn((Brain {
-        task: Box::new(BuildWallTask {
-            current_action: BrainAction::Idle,
-        }),
-    },));
-}
-
 // TODO actually do actions
-fn preform_brain_actions(brains: Query<(Entity, &Brain)>) {
-    for (entity, brain) in &brains {
-        //info!("{:?}, {:?}", entity, brain.task.current_action());
+// Should break into many systems?
+fn preform_brain_actions(mut brains: Query<(Entity, &Brain, &mut Transform)>, time: Res<Time>) {
+    for (entity, brain, mut transform) in &mut brains {
+        info!("{:?}, {:?}", entity, brain.task.current_action());
+        if let Some(task) = brain.task.current_action() {
+            match task {
+                BrainAction::Idle => {}
+                BrainAction::WaitingOnPathfinding => todo!(),
+                BrainAction::Walking(target) => {
+                    transform.translation = transform.translation
+                        + (target - transform.translation.truncate())
+                            .normalize()
+                            .extend(0.0)
+                            * time.delta_seconds()
+                            * 3.0
+                }
+                BrainAction::UsingMachine => todo!(),
+                BrainAction::PickupItem => todo!(),
+                BrainAction::Build => todo!(),
+            }
+        }
     }
 }
