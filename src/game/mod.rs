@@ -10,6 +10,7 @@ use starfield::spawn_star_field;
 use crate::assets::sprites::resources::{SpriteSheets, Sprites};
 use crate::assets::sprites::Robots;
 use crate::assets::AssetsPlugin;
+use crate::camera::GameCameraPlugin;
 use crate::GameState;
 use bevy::prelude::*;
 
@@ -26,6 +27,7 @@ impl Plugin for GamePlugin {
             .add_plugins(AssetsPlugin)
             .add_plugins(BrainPlugin)
             .add_plugins(WallPlugin)
+            .add_plugins(GameCameraPlugin)
             // Systems
             .add_systems(Startup, spawn_camera)
             .add_systems(Startup, spawn_star_field)
