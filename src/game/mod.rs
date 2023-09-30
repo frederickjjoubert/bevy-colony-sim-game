@@ -7,7 +7,6 @@ mod wall;
 use bevy::render::camera::ScalingMode;
 use starfield::spawn_star_field;
 
-use crate::assets::sprites::resources::{SpriteSheets, Sprites};
 use crate::assets::sprites::Robots;
 use crate::assets::AssetsPlugin;
 use crate::camera::GameCameraPlugin;
@@ -23,7 +22,7 @@ pub struct GamePlugin;
 impl Plugin for GamePlugin {
     fn build(&self, app: &mut App) {
         app
-            //Plugins
+            // Plugins
             .add_plugins(AssetsPlugin)
             .add_plugins(BrainPlugin)
             .add_plugins(WallPlugin)
@@ -31,8 +30,8 @@ impl Plugin for GamePlugin {
             // Systems
             .add_systems(Startup, spawn_camera)
             .add_systems(Startup, spawn_star_field)
-            .add_systems(OnEnter(GameState::Gameplay), spawn_test_pawn)
-            .add_systems(Startup, test_sprites_loaded);
+            .add_systems(PostStartup, start_game_state)
+            .add_systems(OnEnter(GameState::Gameplay), spawn_test_pawn);
     }
 }
 
@@ -52,7 +51,12 @@ pub fn spawn_camera(mut commands: Commands) {
     ));
 }
 
+pub fn start_game_state(mut next_game_state: ResMut<NextState<GameState>>) {
+    // next_game_state.set(GameState::Gameplay);
+}
+
 pub fn spawn_test_pawn(mut commands: Commands, sprites: Res<Robots>) {
+    print!("spawn_test_pawn");
     commands.spawn((
         SpriteSheetBundle {
             transform: Transform::from_xyz(2.0, 2.0, 100.0),
@@ -66,10 +70,4 @@ pub fn spawn_test_pawn(mut commands: Commands, sprites: Res<Robots>) {
         },
         Brain::new(),
     ));
-}
-
-pub fn test_sprites_loaded(sprites: Res<Sprites>, sprite_sheets: Res<SpriteSheets>) {
-    println!("test_sprites_loaded!");
-    println!("{:?}", sprites.sprites);
-    println!("{:?}", sprite_sheets.sprite_sheets);
 }

@@ -152,7 +152,7 @@ impl BrainTask for DummyTask {
 // Should break into many systems?
 fn preform_brain_actions(mut brains: Query<(Entity, &Brain, &mut Transform)>, time: Res<Time>) {
     for (entity, brain, mut transform) in &mut brains {
-        info!("{:?}, {:?}", entity, brain.task.current_action());
+        // info!("{:?}, {:?}", entity, brain.task.current_action());
         if let Some(task) = brain.task.current_action() {
             match task {
                 BrainAction::Idle => {}
