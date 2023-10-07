@@ -11,17 +11,17 @@ use bevy_hanabi::prelude::*;
 
 #[derive(Clone, Eq, PartialEq, Debug, Hash, Default, States)]
 pub enum GameState {
-    #[default]
     Loading,
+    #[default]
     Gameplay,
 }
 
 fn main() {
     App::new()
         .add_state::<GameState>()
-        .add_loading_state(
-            LoadingState::new(GameState::Loading).continue_to_state(GameState::Gameplay),
-        )
+        //.add_loading_state(
+        //LoadingState::new(GameState::Loading).continue_to_state(GameState::Gameplay),
+        //)
         .add_plugins(
             DefaultPlugins
                 // Set up the window
