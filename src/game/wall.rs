@@ -1,3 +1,5 @@
+use std::path::Path;
+
 pub use bevy::prelude::*;
 
 use crate::{assets::sprites::Aske4TileSet, GameState};
@@ -7,11 +9,15 @@ use super::grid::{GridLocation, GridPlugin, GRID_SIZE};
 #[derive(Component, Default)]
 pub struct Wall;
 
+#[derive(Component, Default)]
+pub struct PathfindingBlocker;
+
 pub struct WallPlugin;
 
 impl Plugin for WallPlugin {
     fn build(&self, app: &mut App) {
         app.add_plugins(GridPlugin::<Wall>::default())
+            .add_plugins(GridPlugin::<PathfindingBlocker>::default())
             .add_systems(OnEnter(GameState::Gameplay), spawn_test_walls);
     }
 }
@@ -40,6 +46,7 @@ fn spawn_test_wall(commands: &mut Commands, x: usize, y: usize, sprites: &Res<As
             ..default()
         },
         Wall,
+        PathfindingBlocker,
         GridLocation::new(x as u32, y as u32),
     ));
 }

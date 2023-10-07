@@ -56,7 +56,7 @@ pub fn start_game_state(mut next_game_state: ResMut<NextState<GameState>>) {
 }
 
 pub fn spawn_test_pawn(mut commands: Commands, sprites: Res<Robots>) {
-    print!("spawn_test_pawn");
+    //print!("spawn_test_pawn");
     commands.spawn((
         SpriteSheetBundle {
             transform: Transform::from_xyz(2.0, 2.0, 100.0),
