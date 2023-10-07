@@ -1,5 +1,5 @@
 use bevy::prelude::*;
-use bevy_asset_loader::asset_collection::AssetCollection;
+use bevy_asset_loader::asset_collection::{AssetCollection, AssetCollectionApp};
 use bevy_asset_loader::loading_state::LoadingStateAppExt;
 
 use crate::GameState;
@@ -23,8 +23,7 @@ pub struct Robots {
 
 impl Plugin for SpritesPlugin {
     fn build(&self, app: &mut App) {
-        app
-        .add_collection_to_loading_state::<_, Robots>(GameState::Loading)
-        .add_collection_to_loading_state::<_, Aske4TileSet>(GameState::Loading);
+        app.init_collection::<Robots>()
+            .init_collection::<Aske4TileSet>();
     }
 }
