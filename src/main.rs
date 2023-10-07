@@ -7,6 +7,7 @@ use game::GamePlugin;
 
 use bevy::prelude::*;
 use bevy::window::{PresentMode, WindowResolution};
+use bevy_embedded_assets::EmbeddedAssetPlugin;
 use bevy_hanabi::prelude::*;
 
 #[derive(Clone, Eq, PartialEq, Debug, Hash, Default, States)]
@@ -33,7 +34,9 @@ fn main() {
                         ..default()
                     }),
                     ..default()
-                }),
+                })
+                .build()
+                .add_before::<bevy::asset::AssetPlugin, _>(EmbeddedAssetPlugin),
         )
         .add_plugins(HanabiPlugin)
         .add_plugins(GamePlugin)
