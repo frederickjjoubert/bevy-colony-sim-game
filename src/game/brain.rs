@@ -1,5 +1,7 @@
+use crate::game::constants::{MAP_HEIGHT, MAP_WIDTH, WALK_SPEED};
+use crate::game::utils::grid_to_world;
 use bevy::{ecs::system::SystemState, prelude::*};
-use rand::Rng;
+use rand::{random, Rng};
 
 pub struct BrainPlugin;
 
@@ -101,12 +103,16 @@ impl BrainTask for WanderTask {
             let current_transform = world.get::<Transform>(brain).unwrap();
             // FIXME based on speed and frame rate
             if current_transform.translation.truncate().distance(target) < 0.3 {
-                let (x, y) = rand::thread_rng().gen::<(f32, f32)>();
-                self.current_action = BrainAction::Walking(Vec2::new(x * 20.0, y * 20.0));
+                let x = rand::thread_rng().gen_range(1..(MAP_WIDTH - 1) as i32);
+                let y = rand::thread_rng().gen_range(1..(MAP_HEIGHT - 1) as i32);
+                let (world_x, world_y) = grid_to_world(x, y);
+                self.current_action = BrainAction::Walking(Vec2::new(world_x, world_y));
             }
         } else {
-            let (x, y) = rand::thread_rng().gen::<(f32, f32)>();
-            self.current_action = BrainAction::Walking(Vec2::new(x * 20.0, y * 20.0));
+            let x = rand::thread_rng().gen_range(1..(MAP_WIDTH - 1) as i32);
+            let y = rand::thread_rng().gen_range(1..(MAP_HEIGHT - 1) as i32);
+            let (world_x, world_y) = grid_to_world(x, y);
+            self.current_action = BrainAction::Walking(Vec2::new(world_x, world_y));
         }
     }
 }
@@ -163,7 +169,7 @@ fn preform_brain_actions(mut brains: Query<(Entity, &Brain, &mut Transform)>, ti
                             .normalize()
                             .extend(0.0)
                             * time.delta_seconds()
-                            * 3.0
+                            * WALK_SPEED
                 }
                 BrainAction::UsingMachine => todo!(),
                 BrainAction::PickupItem => todo!(),

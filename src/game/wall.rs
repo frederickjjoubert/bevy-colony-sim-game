@@ -40,7 +40,7 @@ fn spawn_test_wall(commands: &mut Commands, x: usize, y: usize, sprites: &Res<As
     let (world_x, world_y) = grid_to_world(x as i32, y as i32);
     commands.spawn((
         SpriteSheetBundle {
-            transform: Transform::from_xyz(world_x, world_y, 0.0),
+            transform: Transform::from_xyz(world_x, world_y, 1.0),
             sprite: TextureAtlasSprite {
                 anchor: Anchor::BottomLeft,
                 index: 11,

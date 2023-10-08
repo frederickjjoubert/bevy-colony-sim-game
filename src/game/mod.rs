@@ -15,7 +15,6 @@ use crate::assets::AssetsPlugin;
 use crate::GameState;
 
 use crate::game::camera::GameCameraPlugin;
-use crate::game::constants::{MAP_HEIGHT, MAP_WIDTH};
 use crate::game::utils::grid_to_world;
 use bevy::prelude::*;
 use bevy::sprite::Anchor;
@@ -42,7 +41,7 @@ pub fn spawn_test_pawn(mut commands: Commands, sprites: Res<Robots>) {
     let (world_x, world_y) = grid_to_world((2 / 2) as i32, (2 / 2) as i32);
     commands.spawn((
         SpriteSheetBundle {
-            transform: Transform::from_xyz(world_x, world_y, 0.0),
+            transform: Transform::from_xyz(world_x, world_y, 1.0),
             sprite: TextureAtlasSprite {
                 anchor: Anchor::BottomLeft,
                 custom_size: Some(Vec2::splat(32.0)),
@@ -52,6 +51,6 @@ pub fn spawn_test_pawn(mut commands: Commands, sprites: Res<Robots>) {
             texture_atlas: sprites.frames.clone(),
             ..default()
         },
-        // Brain::new(),
+        Brain::new(),
     ));
 }
