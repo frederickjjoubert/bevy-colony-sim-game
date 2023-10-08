@@ -9,6 +9,7 @@ use bevy::prelude::*;
 use bevy::window::{PresentMode, WindowResolution};
 use bevy_embedded_assets::EmbeddedAssetPlugin;
 use bevy_hanabi::prelude::*;
+use bevy_inspector_egui::quick::WorldInspectorPlugin;
 
 #[derive(Clone, Eq, PartialEq, Debug, Hash, Default, States)]
 pub enum GameState {
@@ -36,10 +37,12 @@ fn main() {
                     ..default()
                 })
                 .build()
+                // bevy_embedded_assets
                 .add_before::<bevy::asset::AssetPlugin, _>(EmbeddedAssetPlugin),
         )
         .add_plugins(HanabiPlugin)
         .add_plugins(GamePlugin)
+        .add_plugin(WorldInspectorPlugin::new())
         .insert_resource(ClearColor(Color::rgb(0.0, 0.0, 0.0)))
         .run();
 }
