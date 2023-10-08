@@ -2,8 +2,6 @@ use bevy::prelude::*;
 use bevy_asset_loader::asset_collection::{AssetCollection, AssetCollectionApp};
 use bevy_asset_loader::loading_state::LoadingStateAppExt;
 
-use crate::GameState;
-
 // === Plugin ===
 pub struct SpritesPlugin;
 

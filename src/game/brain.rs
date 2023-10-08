@@ -1,5 +1,5 @@
 use bevy::{ecs::system::SystemState, prelude::*};
-use rand::{rngs::ThreadRng, Rng};
+use rand::Rng;
 
 pub struct BrainPlugin;
 
