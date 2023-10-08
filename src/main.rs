@@ -1,5 +1,4 @@
 mod assets;
-mod camera;
 mod game;
 
 use bevy_asset_loader::loading_state::{LoadingState, LoadingStateAppExt};
@@ -26,6 +25,8 @@ fn main() {
         //)
         .add_plugins(
             DefaultPlugins
+                // Prevents blurry sprites
+                .set(ImagePlugin::default_nearest())
                 // Set up the window
                 .set(WindowPlugin {
                     primary_window: Some(Window {
