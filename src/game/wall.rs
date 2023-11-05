@@ -1,13 +1,10 @@
-use std::path::Path;
-
-pub use bevy::prelude::*;
-use bevy::sprite::Anchor;
-
-use crate::game::constants::{MAP_HEIGHT, MAP_WIDTH};
-use crate::game::utils::grid_to_world;
-use crate::{assets::sprites::Aske4TileSet, GameState};
-
 use super::grid::{GridLocation, GridPlugin, GRID_SIZE};
+use crate::assets::sprites::Aske4TileSet;
+use crate::game::constants::{MAP_HEIGHT, MAP_WIDTH};
+use crate::game::state::GameState;
+use crate::game::utils::grid_to_world;
+use bevy::prelude::*;
+use bevy::sprite::Anchor;
 
 #[derive(Component, Default)]
 pub struct Wall;

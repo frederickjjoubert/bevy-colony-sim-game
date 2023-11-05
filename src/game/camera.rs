@@ -1,8 +1,7 @@
 use crate::game::constants::{MAP_HEIGHT, MAP_WIDTH};
+use crate::game::state::GameState;
 use crate::game::utils::grid_to_world;
 use bevy::prelude::*;
-
-use crate::GameState;
 
 const CAMERA_DEFAULT_ZOOM: f32 = 0.75;
 const CAMERA_MOVEMENT_SPEED: f32 = 200.0;

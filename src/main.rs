@@ -1,28 +1,27 @@
 mod assets;
+mod colors;
 mod game;
+mod state;
 
-use bevy_asset_loader::loading_state::{LoadingState, LoadingStateAppExt};
-use game::GamePlugin;
-
+use crate::game::state::GameState;
+use crate::game::ui::components::UI;
+use crate::game::wall::Wall;
+use crate::state::AppState;
 use bevy::prelude::*;
-use bevy::window::{PresentMode, WindowResolution};
+use bevy::window::{close_on_esc, PresentMode, WindowResolution};
+use bevy_asset_loader::loading_state::{LoadingState, LoadingStateAppExt};
 use bevy_embedded_assets::EmbeddedAssetPlugin;
 use bevy_hanabi::prelude::*;
+use bevy_inspector_egui::quick::FilterQueryInspectorPlugin;
+use bevy_inspector_egui::quick::StateInspectorPlugin;
 use bevy_inspector_egui::quick::WorldInspectorPlugin;
-
-#[derive(Clone, Eq, PartialEq, Debug, Hash, Default, States)]
-pub enum GameState {
-    Loading,
-    #[default]
-    Gameplay,
-}
+use game::GamePlugin;
 
 fn main() {
     App::new()
-        .add_state::<GameState>()
-        //.add_loading_state(
-        //LoadingState::new(GameState::Loading).continue_to_state(GameState::Gameplay),
-        //)
+        // Window Background Color
+        .insert_resource(ClearColor(Color::rgb(0.0, 0.0, 0.0)))
+        .add_state::<AppState>()
         .add_plugins(
             DefaultPlugins
                 // Prevents blurry sprites
@@ -43,7 +42,13 @@ fn main() {
         )
         .add_plugins(HanabiPlugin)
         .add_plugins(GamePlugin)
-        .add_plugin(WorldInspectorPlugin::new())
-        .insert_resource(ClearColor(Color::rgb(0.0, 0.0, 0.0)))
+        // Bevy Inspector egui
+        .add_plugins(FilterQueryInspectorPlugin::<(Without<UI>, Without<Wall>)>::default())
+        .add_plugins(FilterQueryInspectorPlugin::<With<UI>>::default())
+        // .add_plugins(ResourceInspectorPlugin::<Score>::default())
+        .add_plugins(StateInspectorPlugin::<AppState>::default())
+        .add_plugins(StateInspectorPlugin::<GameState>::default())
+        // .add_plugins(WorldInspectorPlugin::new())
+        .add_systems(Update, close_on_esc)
         .run();
 }
