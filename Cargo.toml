@@ -2,7 +2,10 @@
 name = "bevy-colony-sim-game"
 version = "0.1.0"
 edition = "2021"
-authors = ["Jacques 20562845+frederickjjoubert@users.noreply.github.com"]
+authors = [
+    "Jacques 20562845+frederickjjoubert@users.noreply.github.com",
+    "Matthew logicprojectsbusiness@gmail.com",
+]
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
