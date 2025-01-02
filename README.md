@@ -1,4 +1,4 @@
-## Bevy Colony Simulator Game
+# Bevy Colony Simulator Game
 
 This is a learning / experimental project to develop
 a [colony simulator](https://en.wikipedia.org/wiki/Construction_and_management_simulation) style game using
@@ -8,11 +8,11 @@ the [Bevy](https://bevyengine.org/) game engine.
 
 [Rust](https://www.rust-lang.org/)
 
-- https://doc.rust-lang.org/stable/book/
-- https://doc.rust-lang.org/stable/rust-by-example/
-- https://rust-unofficial.github.io/patterns/- https://doc.rust-lang.org/stable/book/
-- https://doc.rust-lang.org/stable/rust-by-example/
-- https://doc.rust-lang.org/reference/introduction.html
+- <https://doc.rust-lang.org/stable/book/>
+- <https://doc.rust-lang.org/stable/rust-by-example/>
+- <https://rust-unofficial.github.io/patterns/-> <https://doc.rust-lang.org/stable/book/>
+- <https://doc.rust-lang.org/stable/rust-by-example/>
+- <https://doc.rust-lang.org/reference/introduction.html>
 
 See also:
 
@@ -20,7 +20,7 @@ See also:
 
 ### Install
 
-https://www.rust-lang.org/tools/install
+<https://www.rust-lang.org/tools/install>
 
 ### Update
 
@@ -63,14 +63,14 @@ To see suggestions: `cargo clippy`
 
 To automatically apply suggestions: `cargo clippy --fix`
 
-1. https://github.com/rust-lang/rust-clippy
+1. <https://github.com/rust-lang/rust-clippy>
 
 ### rustfmt
 
 A tool for formatting Rust code according to style guidelines.
 
-1. https://github.com/rust-lang/rustfmt
-2. https://github.com/rust-lang/rustfmt/blob/master/intellij.md (For use with CLion's Rust Plugin)
+1. <https://github.com/rust-lang/rustfmt>
+2. <https://github.com/rust-lang/rustfmt/blob/master/intellij.md> (For use with CLion's Rust Plugin)
 
 ## CI / CD
 
